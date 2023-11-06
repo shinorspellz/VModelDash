@@ -1,0 +1,44 @@
+[
+  {
+    "id": 0,
+    "title": "Dashboard",
+    "icon": "home",
+    "url": "/dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Users",
+    "icon": "users",
+    "url": "/users"
+  },
+  {
+    "id": 2,
+    "title": "Jobs & Services",
+    "icon": "business",
+    "url": "/jobs-services"
+  },
+  {
+    "id": 3,
+    "title": "Bookings",
+    "icon": "receipt",
+    "url": "/bookings"
+  },
+  {
+    "id": 4,
+    "title": "Coupons",
+    "icon": "ticket",
+    "url": "/coupons"
+  },
+  {
+    "id": 5,
+    "title": "Reports",
+    "icon": "report",
+    "url": "/reports"
+  },
+  {
+    "id": 6,
+    "title": "Ads",
+    "icon": "speaker",
+    "url": "/ads"
+  }
+]
