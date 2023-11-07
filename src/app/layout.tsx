@@ -10,7 +10,8 @@ import NextTopLoader from "nextjs-toploader";
 import MUIProvider from "./Providers/MUIProvider";
 
 export const metadata: Metadata = {
-  title: "Welcome - VModel - Discover, Connect, and Collaborate with Brands",
+  title:
+    "VModel Admin Dashboard - Discover, Connect, and Collaborate with Brands",
   description: "Discover, Connect, and Collaborate with Brands",
 };
 
@@ -25,7 +26,6 @@ export default function RootLayout({
         <MUIProvider>
           <NextProviders>
             <ReduxProvider>
-              {" "}
               <NextTopLoader color="#7a5555" />
               {children}
             </ReduxProvider>

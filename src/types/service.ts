@@ -46,3 +46,15 @@ export interface BasicCardTypes {
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
 };
+
+export interface TabDataTypes {
+  id: number | string;
+  label: string;
+}
+
+export interface VMTabTypes {
+  initialValue: number | string;
+  TabData: TabDataTypes[];
+  activeTab: (clickedTab: string) => void;
+  isDivider?: boolean;
+}

@@ -1,30 +1,19 @@
 "use client";
-import { useState } from "react";
-import { format } from "date-fns";
-import numeral from "numeral";
 import {
   Box,
-  Card,
-  CardHeader,
-  Divider,
-  Tab,
   Table,
   TableBody,
   TableCell,
   TableRow,
-  Tabs,
   Typography,
 } from "@mui/material";
+import { format } from "date-fns";
+import numeral from "numeral";
 import { SeverityPill } from "../Widget/SeverityPill";
+import VMTab from "../Widget/VMTab";
 
 const RecentBookings = (props: any) => {
   const { transactions } = props;
-  const [value, setValue] = useState("all");
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    // console.log(newValue);
-    setValue(newValue);
-  };
 
   const statusMap: any = {
     confirmed: "success",
@@ -33,37 +22,26 @@ const RecentBookings = (props: any) => {
   };
 
   return (
-    <Box
-      sx={{
-        ".MuiTabs-root": {
-          // padding: 0,
-          paddingRight: "20px !important",
-          paddingLeft: "20px !important",
-        },
-        ".MuiButtonBase-root": {
-          fontSize: 14,
-          textTransform: "unset",
-          minWidth: "auto !important",
-          flexDirection: "column",
-          padding: "12px 0",
-          marginRight: "24px",
-          position: "relative",
-        },
-        ".MuiTabs-indicator": {
-          backgroundColor: "rgb(237, 206, 171)",
-          // width: "16.775px !important",
-        },
-        ".MuiButtonBase-root.Mui-selected": {
-          color: "rgb(84, 59, 59)",
-        },
-      }}
-    >
-      <Tabs value={value} onChange={handleChange} sx={{ px: 3 }}>
-        <Tab label="All" value="all" />
-        <Tab label="Confirmed" value="confirmed" />
-        <Tab label="Pending" value="pending" />
-      </Tabs>
-      <Divider />
+    <>
+      <VMTab
+        activeTab={(e) => console.log(e)}
+        TabData={[
+          {
+            id: "all",
+            label: "All",
+          },
+          {
+            id: "confirmed",
+            label: "Confirmed",
+          },
+          {
+            id: "pending",
+            label: "Pending",
+          },
+        ]}
+        initialValue={"all"}
+        isDivider={true}
+      />
       <Table sx={{ minWidth: 600 }}>
         <TableBody>
           {transactions.map((transaction: any) => {
@@ -143,7 +121,7 @@ const RecentBookings = (props: any) => {
           })}
         </TableBody>
       </Table>
-    </Box>
+    </>
   );
 };
 

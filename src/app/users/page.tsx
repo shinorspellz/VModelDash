@@ -16,7 +16,7 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 import { users } from "@/utils/UserData";
-import UserTable from "../components/General/Widget/UserTable";
+import UserTable from "../components/General/Widget/DatatTable/UserTable";
 
 const UsersPage = () => {
   const [page, setPage] = React.useState(1);

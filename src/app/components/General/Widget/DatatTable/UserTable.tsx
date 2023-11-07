@@ -21,10 +21,10 @@ import {
   User,
 } from "@nextui-org/react";
 import React from "react";
-import { ChevronDownIcon } from "../../Icons/ChevronDownIcon";
-import { PlusIcon } from "../../Icons/PlusIcon";
-import { SearchIcon } from "../../Icons/SearchIcon";
-import { VerticalDotsIcon } from "../../Icons/VerticalDotsIcon";
+import { ChevronDownIcon } from "../../../Icons/ChevronDownIcon";
+import { PlusIcon } from "../../../Icons/PlusIcon";
+import { SearchIcon } from "../../../Icons/SearchIcon";
+import { VerticalDotsIcon } from "../../../Icons/VerticalDotsIcon";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
