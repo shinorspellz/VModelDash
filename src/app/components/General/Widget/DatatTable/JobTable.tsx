@@ -228,7 +228,7 @@ export default function JobTable() {
                   },
                 }}
               >
-                <MobileDatePicker
+                {/* <MobileDatePicker
                   label=""
                   inputFormat="MM/dd/yyyy"
                   onChange={(newDate) => setStartDate(newDate)}
@@ -236,7 +236,7 @@ export default function JobTable() {
                     <TextField fullWidth {...inputProps} />
                   )}
                   value={startDate}
-                />
+                /> */}
               </Box>
             </div>
             <Dropdown>
