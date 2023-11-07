@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useEffect } from "react";
-import ProfileNav from "../User/ProfileNav";
+import ProfileNav from "../../User/ProfileNav";
 import Moment from "react-moment";
-import SidebarLayout from "./SidebarLayout";
+import SidebarLayout from "../SidebarLayout";
 import { usePathname } from "next/navigation";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   return (
-    <div className="vm-bg w-full h-screen overflow-hidden">
+    <div className="vm-bg w-full h-screen overflow-hidden overflow-y-auto">
       <header
         className="sticky z-[1100] top-0 shadow-md"
         style={{
@@ -24,7 +24,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <h5
             className="text-[1.2rem] font-semibold"
             style={{
-              color: "#888ab0",
+              color: "#928585",
             }}
           >
             <Moment interval={1000} format="MMMM Do YYYY, h:mm a" />

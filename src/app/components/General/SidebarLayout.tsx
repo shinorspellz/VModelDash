@@ -14,12 +14,12 @@ const SidebarItem = (props: SidebarItemType) => {
   return (
     <>
       <Button
-        className={`w-[88%] py-4 h-auto rounded-l-[0px] block rounded-r-[30px] relative leading-none`}
+        className={`w-[88%] py-0 h-auto rounded-l-[0px] block rounded-r-[30px] relative leading-none`}
         style={{
           backgroundColor: isActive ? "rgba(255,255,255,.7)" : "#fff",
         }}
       >
-        <Link href={url}>
+        <Link href={url} className="py-4 block">
           {isActive && (
             <div className="absolute left-0 w-[10px] h-full bg-white top-0 rounded-r-[10px]"></div>
           )}

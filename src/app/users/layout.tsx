@@ -5,7 +5,7 @@ export const metadata = {
   description: "Discover, Connect, and Collaborate with Brands",
 };
 
-export default function DashLayout({
+export default function UsersLayout({
   children,
 }: {
   children: React.ReactNode;

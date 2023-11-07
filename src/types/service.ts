@@ -19,3 +19,23 @@ export interface SidebarItemType {
   isActive: boolean;
   url: string;
 }
+
+export interface DashboardInnerLayoutTypes {
+  title: string;
+  children: React.ReactNode;
+}
+
+export interface CounterCardsType {
+  title: string;
+  icon: React.ReactNode;
+  counter: string | number;
+  url: string;
+}
+
+export interface BasicCardTypes {
+  title?: string;
+  desc?: string;
+  children: React.ReactNode;
+  options?: React.ReactNode;
+  maxHeight?: string;
+}

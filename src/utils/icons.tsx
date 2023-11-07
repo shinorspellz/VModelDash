@@ -7,6 +7,8 @@ import {
   TicketDiscount,
   ArchiveBook,
   VolumeHigh,
+  FavoriteChart,
+  KeyboardOpen,
 } from "iconsax-react";
 
 const VMIcons = ({ iconType }: { iconType: string }) => {
@@ -41,6 +43,14 @@ const VMIcons = ({ iconType }: { iconType: string }) => {
 
       {iconType == "speaker" && (
         <VolumeHigh size={size} color={color} variant={varType} />
+      )}
+
+      {iconType == "services" && (
+        <FavoriteChart size={size} color={color} variant={varType} />
+      )}
+
+      {iconType == "app" && (
+        <KeyboardOpen size={size} color={color} variant={varType} />
       )}
     </div>
   );

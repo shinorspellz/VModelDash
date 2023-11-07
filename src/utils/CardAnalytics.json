@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Users",
+    "count": "2,000",
+    "icon": "users",
+    "url": "/users"
+  },
+  {
+    "id": 4,
+    "title": "Coupons",
+    "count": 647,
+    "icon": "ticket",
+    "url": "/coupons"
+  },
+  {
+    "id": 5,
+    "title": "Services",
+    "count": 120,
+    "icon": "services",
+    "url": "/services"
+  },
+  {
+    "id": 2,
+    "title": "Jobs",
+    "count": 30,
+    "icon": "business",
+    "url": "/jobs-services"
+  },
+  {
+    "id": 3,
+    "title": "Bookings",
+    "count": "4,300",
+    "icon": "receipt",
+    "url": "/bookings"
+  },
+  {
+    "id": 6,
+    "title": "Applications",
+    "count": "890",
+    "icon": "app",
+    "url": "/app"
+  }
+]
