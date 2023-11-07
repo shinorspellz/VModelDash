@@ -19,7 +19,7 @@ const ProfileNav = () => {
             as="button"
             avatarProps={{
               isBordered: true,
-              src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+              src: "/assets/images/avatar/profile.jpg",
             }}
             className="transition-transform"
             description="@devdannny@gmail.com"

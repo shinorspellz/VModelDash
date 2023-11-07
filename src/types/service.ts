@@ -1,3 +1,5 @@
+import { SVGProps } from "react";
+
 export interface IFormInputs {
   username: string;
   password: string;
@@ -38,4 +40,9 @@ export interface BasicCardTypes {
   children: React.ReactNode;
   options?: React.ReactNode;
   maxHeight?: string;
+  isPadding?: boolean;
 }
+
+export type IconSvgProps = SVGProps<SVGSVGElement> & {
+  size?: number;
+};

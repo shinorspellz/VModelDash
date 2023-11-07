@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Users",
+    "count": "2,000",
+    "icon": "users",
+    "url": "/users"
+  },
+  {
+    "id": 4,
+    "title": "Admin",
+    "count": 18,
+    "icon": "users",
+    "url": "/coupons"
+  },
+  {
+    "id": 5,
+    "title": "Banned",
+    "count": 78,
+    "icon": "users",
+    "url": "/services"
+  }
+]

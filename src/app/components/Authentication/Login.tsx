@@ -28,7 +28,7 @@ const LoginPage = () => {
     setIsLoading(true);
     setTimeout(() => {
       router.push("/dashboard");
-    }, 3000);
+    }, 1500);
   };
   return (
     <div className="vm-bg flex py-8 fixed w-full h-full items-center justify-center">

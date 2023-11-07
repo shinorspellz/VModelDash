@@ -9,16 +9,17 @@ const BasicCard = ({
   title,
   desc,
   maxHeight,
+  isPadding,
 }: BasicCardTypes) => {
   return (
-    <Card className="vm-shadow-xs">
-      <CardBody>
+    <Card className={`vm-shadow-xs`}>
+      <CardBody className={`${isPadding && "p-0"}`}>
         {title && (
           <div
             className="flex items-center"
             style={{
               height: 69,
-              padding: "0 10px 16px",
+              padding: !isPadding ? "0 10px 16px" : "20px 18px 16px",
             }}
           >
             <div
@@ -42,7 +43,7 @@ const BasicCard = ({
         <ScrollBar styles={{ maxHeight: maxHeight ?? "250px" }}>
           <div
             style={{
-              padding: "0px 10px 16px",
+              padding: !isPadding ? "0px 10px 16px" : 0,
             }}
           >
             {children}

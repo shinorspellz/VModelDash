@@ -7,6 +7,7 @@ import { NextProviders } from "./Providers/NextUI";
 const inter = Inter({ subsets: ["latin"] });
 
 import NextTopLoader from "nextjs-toploader";
+import MUIProvider from "./Providers/MUIProvider";
 
 export const metadata: Metadata = {
   title: "Welcome - VModel - Discover, Connect, and Collaborate with Brands",
@@ -21,10 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader color="#7a5555" />
-        <NextProviders>
-          <ReduxProvider>{children}</ReduxProvider>
-        </NextProviders>
+        <MUIProvider>
+          <NextProviders>
+            <ReduxProvider>
+              {" "}
+              <NextTopLoader color="#7a5555" />
+              {children}
+            </ReduxProvider>
+          </NextProviders>
+        </MUIProvider>
       </body>
     </html>
   );

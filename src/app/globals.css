@@ -4,6 +4,7 @@
 
 :root {
   --primary-color: 84, 59, 59;
+  --secondary-color: 237, 206, 171;
   --primary-color-op: 222, 217, 217;
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 230, 228, 228;
@@ -37,6 +38,9 @@
 .vm-shadow-xs {
   box-shadow: rgba(0, 0, 0, 0.06) 1px 2px 6px 0px !important;
 }
+.MuiDivider-root {
+  border-color: rgb(242, 244, 247) !important;
+}
 
 @media (min-width: 600px) {
   .vm-container {
@@ -48,5 +52,24 @@
 @media (min-width: 1200px) {
   .vm-container {
     max-width: 1200px;
+  }
+
+  .vm-drawer {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .vm-sidebar {
+    display: none !important;
+  }
+
+  .vm-dashbody {
+    padding-left: 0 !important;
+  }
+
+  .vm-header {
+    left: 0 !important;
+    width: 100% !important;
   }
 }
