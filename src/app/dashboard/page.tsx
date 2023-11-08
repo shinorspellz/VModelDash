@@ -1,30 +1,52 @@
 "use client";
 
-import CardData from "@/utils/CardAnalytics.json";
+import { RootState } from "@/redux/store";
+import { getDashboardAnalytics } from "@/service/dashboard";
+import CardData from "@/utils/data/CardAnalytics.json";
 import VMIcons from "@/utils/icons";
-import { useState, useEffect } from "react";
+import { Button } from "@nextui-org/react";
 import { subDays } from "date-fns";
+import { Refresh2 } from "iconsax-react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import DashboardInnerLayout from "../components/General/Dashboard/DashboardInnerLayout";
 import RecentBookings from "../components/General/Dashboard/RecentBookings";
 import TrendSetters from "../components/General/Dashboard/TrendSetters";
 import BasicCard from "../components/General/Widget/BasicCard";
 import CounterCard from "../components/General/Widget/CounterCard";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { getUsers } from "@/service/dashboard";
 
 const now = new Date();
 
 const DashboardPage = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [analyticsData, setAnalyticsData] = useState<any>({
+    users: 0,
+    coupons: 0,
+    services: 0,
+    jobs: 0,
+    bookings: 0,
+    applications: 0,
+  });
   const authData: any = useSelector(
     (state: RootState) => state.authReducer.value
   );
 
   const getAnalytics = async () => {
-    const response = await getUsers();
-
-    console.log(response);
+    const response: any = await getDashboardAnalytics();
+    if (response) {
+      const { userAnalytics, bookings, coupons, services, jobs } = response;
+      setAnalyticsData({
+        ...analyticsData,
+        users: userAnalytics?.total_users,
+        coupons: coupons?.count,
+        services: services?.count,
+        jobs: jobs?.count,
+        bookings: bookings?.count,
+      });
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 300);
+    }
   };
 
   useEffect(() => {
@@ -32,16 +54,30 @@ const DashboardPage = () => {
   }, []);
 
   return (
-    <DashboardInnerLayout title={`Hello, ${authData?.user?.first_name}`}>
+    <DashboardInnerLayout
+      title={`Hello, ${authData?.user?.first_name}`}
+      options={
+        <>
+          <Button
+            color="primary"
+            startContent={<Refresh2 size="19" color="#fff" />}
+            onClick={getAnalytics}
+          >
+            Refresh
+          </Button>
+        </>
+      }
+    >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {CardData.length &&
           CardData.map((cardItem) => (
             <CounterCard
               title={cardItem.title}
               url={cardItem.url}
-              counter={cardItem.count}
+              counter={analyticsData[cardItem.id]}
               icon={<VMIcons iconType={cardItem.icon} />}
               key={cardItem.id}
+              isLoading={isLoading}
             />
           ))}
       </div>

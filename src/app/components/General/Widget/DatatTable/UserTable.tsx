@@ -1,9 +1,8 @@
-import { columns, statusOptions, users } from "@/utils/UserData";
+import { columns, statusOptions } from "@/utils/table/UserData";
 import { capitalize } from "@/utils/capitalize";
 import {
   Button,
   Chip,
-  ChipProps,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -22,21 +21,24 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { ChevronDownIcon } from "../../../Icons/ChevronDownIcon";
-import { PlusIcon } from "../../../Icons/PlusIcon";
 import { SearchIcon } from "../../../Icons/SearchIcon";
 import { VerticalDotsIcon } from "../../../Icons/VerticalDotsIcon";
+import { useRouter } from "next/navigation";
 
-const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
+const INITIAL_VISIBLE_COLUMNS = [
+  "display_name",
+  "personality",
+  "views",
+  "is_verified",
+  "actions",
+  // "phone_number",
+];
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
-
-type User = (typeof users)[0];
-
-export default function UserTable() {
+export default function UserTable({ tableData }: any) {
+  const users = tableData;
+  type User = (typeof users)[0];
+  const router = useRouter();
+  //console.log(tableData);
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -59,7 +61,7 @@ export default function UserTable() {
     if (visibleColumns === "all") return columns;
 
     return columns.filter((column) =>
-      Array.from(visibleColumns).includes(column.uid)
+      Array.from(visibleColumns).includes(column?.uid)
     );
   }, [visibleColumns]);
 
@@ -67,17 +69,32 @@ export default function UserTable() {
     let filteredUsers = [...users];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
-      );
+      filteredUsers = filteredUsers.filter((user) => {
+        const displayName = user?.display_name?.toLowerCase();
+        const personality = user?.personality?.toLowerCase();
+        const filterValueLowerCase = filterValue.toLowerCase();
+
+        return (
+          (displayName && displayName.includes(filterValueLowerCase)) ||
+          (personality && personality.includes(filterValueLowerCase))
+        );
+      });
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
-      );
+      let filterItemTemp: any = [];
+      for (let index = 0; index < Array.from(statusFilter).length; index++) {
+        const statusItem = Array.from(statusFilter)[index];
+        const statusItemCon: boolean = statusItem == "verified" ? true : false;
+        filterItemTemp.push(
+          filteredUsers.filter((user) => user?.is_verified === statusItemCon)
+        );
+      }
+      if (filterItemTemp.length) {
+        filteredUsers = filterItemTemp[0];
+      }
     }
 
     return filteredUsers;
@@ -104,51 +121,73 @@ export default function UserTable() {
 
   const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
-
     switch (columnKey) {
-      case "name":
+      case "display_name":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
+            avatarProps={{ radius: "lg", src: user.profile_picture_url }}
             description={user.email}
             name={cellValue}
           >
             {user.email}
           </User>
         );
-      case "role":
+      case "personality":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
+            <p className="text-bold text-small capitalize">
+              {cellValue ?? "-"}
             </p>
           </div>
         );
-      case "status":
+      case "Phone":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">
+              {user?.phone_number?.number ?? "-"}
+            </p>
+          </div>
+        );
+      case "views":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">{cellValue}</p>
+          </div>
+        );
+      case "is_verified":
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={user.is_verified ? "success" : "danger"}
             size="sm"
             variant="flat"
           >
-            {cellValue}
+            {user.is_verified ? "Verified" : "Not Verified"}
           </Chip>
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="relative flex justify-center items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                >
+                  Manage
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    router.push(`/users?viewUser=${user.id}`, {
+                      scroll: false,
+                    });
+                  }}
+                >
+                  View
+                </DropdownItem>
                 <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -254,9 +293,9 @@ export default function UserTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
+            {/* <Button color="primary" endContent={<PlusIcon />}>
               Add New
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -347,8 +386,9 @@ export default function UserTable() {
         {(column) => (
           <TableColumn
             key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
+            align={"center"}
             allowsSorting={column.sortable}
+            className={`${column.uid === "actions" && "text-center"}`}
           >
             {column.name}
           </TableColumn>

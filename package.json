@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
     "@mui/x-date-pickers": "^6.18.0",
     "@nextui-org/react": "^2.2.3",
@@ -23,6 +24,7 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "next": "14.0.1",
     "nextjs-toploader": "^1.6.4",
     "nprogress": "^0.2.0",

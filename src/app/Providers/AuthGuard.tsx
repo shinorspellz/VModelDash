@@ -2,6 +2,7 @@
 
 import { RootState } from "@/redux/store";
 import { ChildType } from "@/types/service";
+import { Spinner } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
 
 import React, { useEffect, useCallback, useState } from "react";
@@ -33,7 +34,13 @@ const AuthGuard = (props: ChildType) => {
   }, [pathname, authData]);
 
   if (!checked) {
-    return null;
+    return (
+      <>
+        <div className="absolute left-0 w-full h-full flex items-center justify-center top-0">
+          <Spinner size="lg" />
+        </div>
+      </>
+    );
   }
   return <>{children}</>;
 };

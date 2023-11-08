@@ -7,7 +7,7 @@ import { SidebarItemType } from "@/types/service";
 import { Button } from "@nextui-org/react";
 import VMIcons from "@/utils/icons";
 
-import SidebarData from "@/utils/Sidebar.json";
+import SidebarData from "@/utils/data/Sidebar.json";
 
 const SidebarItem = (props: SidebarItemType) => {
   const { title, icon, isActive, url } = props;

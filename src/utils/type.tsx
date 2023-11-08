@@ -10,6 +10,7 @@ export interface RequestResponseInt {
   data: GlobalRecord | GlobalRecord[];
   success: boolean;
   message: string;
+  results: GlobalRecord | GlobalRecord[];
 }
 
 export interface RequestInt {

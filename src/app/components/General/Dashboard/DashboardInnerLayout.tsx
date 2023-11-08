@@ -4,6 +4,7 @@ import React from "react";
 const DashboardInnerLayout = ({
   title,
   children,
+  options,
 }: DashboardInnerLayoutTypes) => {
   return (
     <>
@@ -11,6 +12,7 @@ const DashboardInnerLayout = ({
         <div>
           <h3 className="font-semibold text-2xl text-primary-700">{title}</h3>
         </div>
+        <div>{options}</div>
       </div>
       {children}
     </>

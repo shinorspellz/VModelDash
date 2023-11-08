@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     setIsLoader(true);
     if (authData?.isAuth) {
-      // setIsLoader(false);
+      setIsLoader(false);
     }
   }, [authData]);
 

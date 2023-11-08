@@ -1,9 +1,8 @@
-import { columns, statusOptions, users } from "@/utils/UserData";
+import { columns, statusOptions } from "@/utils/table/JobData";
 import { capitalize } from "@/utils/capitalize";
 import {
   Button,
   Chip,
-  ChipProps,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -20,26 +19,27 @@ import {
   TableRow,
   User,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { ChevronDownIcon } from "../../../Icons/ChevronDownIcon";
-import { PlusIcon } from "../../../Icons/PlusIcon";
 import { SearchIcon } from "../../../Icons/SearchIcon";
-import { VerticalDotsIcon } from "../../../Icons/VerticalDotsIcon";
-import { Box, TextField } from "@mui/material";
-import { MobileDatePicker } from "@mui/x-date-pickers";
+import moment from "moment";
 
-const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
+const INITIAL_VISIBLE_COLUMNS = [
+  "job_title",
+  "added_by",
+  "job_type",
+  "created_at",
+  "status",
+  "actions",
+  // "phone_number",
+];
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
-
-type User = (typeof users)[0];
-
-export default function JobTable() {
-  const [startDate, setStartDate] = React.useState<any>(new Date());
+export default function JobTable({ tableData }: any) {
+  const users = tableData;
+  type User = (typeof users)[0];
+  const router = useRouter();
+  //console.log(tableData);
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -62,7 +62,7 @@ export default function JobTable() {
     if (visibleColumns === "all") return columns;
 
     return columns.filter((column) =>
-      Array.from(visibleColumns).includes(column.uid)
+      Array.from(visibleColumns).includes(column?.uid)
     );
   }, [visibleColumns]);
 
@@ -70,17 +70,32 @@ export default function JobTable() {
     let filteredUsers = [...users];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
-      );
+      filteredUsers = filteredUsers.filter((user) => {
+        const displayName = user?.job_title?.toLowerCase();
+        const job_type = user?.job_type?.toLowerCase();
+        const filterValueLowerCase = filterValue.toLowerCase();
+
+        return (
+          (displayName && displayName.includes(filterValueLowerCase)) ||
+          (job_type && job_type.includes(filterValueLowerCase))
+        );
+      });
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
-      );
+      let filterItemTemp: any = [];
+      for (let index = 0; index < Array.from(statusFilter).length; index++) {
+        const statusItem = Array.from(statusFilter)[index];
+        const statusItemCon: boolean = statusItem == "approved" ? true : false;
+        filterItemTemp.push(
+          filteredUsers.filter((user) => user?.is_verified === statusItemCon)
+        );
+      }
+      if (filterItemTemp.length) {
+        filteredUsers = filterItemTemp[0];
+      }
     }
 
     return filteredUsers;
@@ -107,51 +122,43 @@ export default function JobTable() {
 
   const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
-
     switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
       case "status":
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={user?.status == "ACTIVE" ? "success" : "danger"}
             size="sm"
             variant="flat"
           >
-            {cellValue}
+            {user.status}
           </Chip>
         );
+      case "created_at":
+        return <>{moment(user?.created_at).format("MMMM Do YYYY, h:mm a")}</>;
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="relative flex justify-center items-center gap-2">
             <Dropdown>
               <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                >
+                  Manage
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    router.push(`/jobs?view=${user.id}&type=job`, {
+                      scroll: false,
+                    });
+                  }}
+                >
+                  View
+                </DropdownItem>
                 <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -209,36 +216,6 @@ export default function JobTable() {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <div className="min-w-[70px]">
-              <Box
-                sx={{
-                  ".MuiOutlinedInput-root": {
-                    borderRadius: 4,
-                    lineHeight: "1rem",
-                    border: "none !important",
-                  },
-                  ".MuiInputBase-input": {
-                    height: "auto !important",
-                    borderRadius: 4,
-                    padding: "10.5px 14px !important",
-                    backgroundColor: "#f1f2f2",
-                  },
-                  ".MuiOutlinedInput-notchedOutline": {
-                    border: "none !important",
-                  },
-                }}
-              >
-                {/* <MobileDatePicker
-                  label=""
-                  inputFormat="MM/dd/yyyy"
-                  onChange={(newDate) => setStartDate(newDate)}
-                  renderInput={(inputProps: any) => (
-                    <TextField fullWidth {...inputProps} />
-                  )}
-                  value={startDate}
-                /> */}
-              </Box>
-            </div>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -287,9 +264,9 @@ export default function JobTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
+            {/* <Button color="primary" endContent={<PlusIcon />}>
               Add New
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -380,8 +357,9 @@ export default function JobTable() {
         {(column) => (
           <TableColumn
             key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
+            align={"center"}
             allowsSorting={column.sortable}
+            className={`${column.uid === "actions" && "text-center"}`}
           >
             {column.name}
           </TableColumn>

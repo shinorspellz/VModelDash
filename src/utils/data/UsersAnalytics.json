@@ -1,22 +1,22 @@
 [
   {
-    "id": 1,
+    "id": "users",
     "title": "Users",
-    "count": "2,000",
+    "count": 0,
     "icon": "users",
     "url": "/users"
   },
   {
-    "id": 4,
+    "id": "admin",
     "title": "Admin",
-    "count": 18,
+    "count": 0,
     "icon": "users",
     "url": "/coupons"
   },
   {
-    "id": 5,
+    "id": "banned",
     "title": "Banned",
-    "count": 78,
+    "count": 0,
     "icon": "users",
     "url": "/services"
   }

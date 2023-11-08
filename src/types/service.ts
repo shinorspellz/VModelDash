@@ -25,6 +25,7 @@ export interface SidebarItemType {
 export interface DashboardInnerLayoutTypes {
   title: string;
   children: React.ReactNode;
+  options?: React.ReactNode;
 }
 
 export interface CounterCardsType {
@@ -32,6 +33,7 @@ export interface CounterCardsType {
   icon: React.ReactNode;
   counter: string | number;
   url: string;
+  isLoading?: boolean;
 }
 
 export interface BasicCardTypes {

@@ -10,15 +10,19 @@ import {
   Skeleton,
   User,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 import { useDispatch } from "react-redux";
 
 const ProfileNav = ({ profileData }: any) => {
   const { isLoader, authData } = profileData;
+  const router = useRouter();
   const dispatch = useDispatch();
   //  console.log(authData);
   const _handleLogout = async () => {
     await Logout();
     dispatch(logOut());
+    router.push("/");
   };
   return (
     <div className="flex items-center gap-4 relative">

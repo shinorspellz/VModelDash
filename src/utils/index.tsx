@@ -55,8 +55,11 @@ export const request: RequestInt = {
   get: async (url, headers = {}) => {
     try {
       const Authorization = await cache.get(CACHE_KEYS.TOKEN);
-      console.log(Authorization);
-      headers = { Authorization, ...headers };
+      //  console.log(Authorization);
+      headers = {
+        Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+        ...headers,
+      };
       const requestParams = {
         url: Env.API_BASE_URL + url,
         method: "GET",
@@ -82,7 +85,7 @@ export const request: RequestInt = {
         data,
         headers: {
           ...headers,
-          Authorization,
+          Authorization: Authorization != null ? `Token  ${Authorization}` : "",
         },
       };
 
@@ -100,7 +103,10 @@ export const request: RequestInt = {
   delete: async (url, headers = {}) => {
     try {
       const Authorization = await cache.get(CACHE_KEYS.TOKEN);
-      headers = { ...headers, Authorization };
+      headers = {
+        ...headers,
+        Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+      };
       const { data } = await Axios.delete(Env.API_BASE_URL + url, { headers });
 
       return data;
@@ -118,7 +124,7 @@ export const request: RequestInt = {
         data,
         headers: {
           ...headers,
-          Authorization,
+          Authorization: Authorization != null ? `Token  ${Authorization}` : "",
         },
       };
 

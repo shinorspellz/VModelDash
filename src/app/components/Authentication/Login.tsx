@@ -82,10 +82,7 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
     clearAlert();
     setIsLoading(true);
-    const userData = await Login({
-      username: data.username,
-      password: data.password,
-    });
+    const userData = await Login(data);
 
     if (userData?.token) {
       let respToken = createToken(userData);

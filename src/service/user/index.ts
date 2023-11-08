@@ -27,3 +27,32 @@ export const Logout = async () => {
     Cookies.remove("APP_IS_ACTIVE"),
   ]);
 };
+
+export const getUserAnalytics = async () => {
+  try {
+    const [userAnalytics, allUsers] = await Promise.allSettled([
+      request.get(`/users/analytics/`),
+      request.get(`/users/`),
+    ]);
+
+    return {
+      userAnalytics:
+        userAnalytics?.status === "fulfilled"
+          ? userAnalytics?.value?.data
+          : null,
+      allUsers:
+        allUsers?.status === "fulfilled" ? allUsers?.value?.results : null,
+    };
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getUserDetails = async (userID: string) => {
+  try {
+    const response = await request.get(`/users/fetch/${userID}`);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
