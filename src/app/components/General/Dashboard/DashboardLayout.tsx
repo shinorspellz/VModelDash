@@ -7,14 +7,25 @@ import SidebarLayout from "../SidebarLayout";
 import { usePathname } from "next/navigation";
 import { Drawer, IconButton } from "@mui/material";
 import { Menu as MenuIcon } from "../../Icons/menu";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const authData = useSelector((state: RootState) => state.authReducer.value);
   const pathname = usePathname();
+  const [isLoader, setIsLoader] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const onOpenSidebar = () => {
     setIsSidebarOpen(true);
   };
+
+  useEffect(() => {
+    setIsLoader(true);
+    if (authData?.isAuth) {
+      // setIsLoader(false);
+    }
+  }, [authData]);
 
   const onClose = () => {
     setIsSidebarOpen(false);
@@ -54,7 +65,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           <div className="ml-4">
-            <ProfileNav />
+            <ProfileNav
+              profileData={{
+                isLoader,
+                authData: authData?.user,
+              }}
+            />
           </div>
         </div>
       </header>

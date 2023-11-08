@@ -58,3 +58,7 @@ export interface VMTabTypes {
   activeTab: (clickedTab: string) => void;
   isDivider?: boolean;
 }
+
+export interface ChildType {
+  children: React.ReactNode;
+}

@@ -1,39 +1,18 @@
+import { AuthInitialState } from "./initialState";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type InitialState = {
-  value: AuthState;
-};
-
-type AuthState = {
-  isAuth: boolean;
-  username: string;
-  uid: string;
-  isModerator: boolean;
-};
-
-const initialState = {
-  value: {
-    isAuth: false,
-    username: "",
-    uid: "",
-    isModerator: false,
-  } as AuthState,
-} as InitialState;
 
 export const auth = createSlice({
   name: "auth",
-  initialState,
+  initialState: AuthInitialState,
   reducers: {
     logOut: () => {
-      return initialState;
+      return AuthInitialState;
     },
-    logIn: (state, action: PayloadAction<string>) => {
+    logIn: (state, action) => {
       return {
         value: {
           isAuth: true,
-          username: action.payload,
-          uid: "43625-7362GD-6352H-7362N3-4653JH",
-          isModerator: false,
+          ...action.payload,
         },
       };
     },

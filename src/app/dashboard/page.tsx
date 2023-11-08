@@ -1,17 +1,38 @@
+"use client";
+
 import CardData from "@/utils/CardAnalytics.json";
 import VMIcons from "@/utils/icons";
+import { useState, useEffect } from "react";
 import { subDays } from "date-fns";
 import DashboardInnerLayout from "../components/General/Dashboard/DashboardInnerLayout";
 import RecentBookings from "../components/General/Dashboard/RecentBookings";
 import TrendSetters from "../components/General/Dashboard/TrendSetters";
 import BasicCard from "../components/General/Widget/BasicCard";
 import CounterCard from "../components/General/Widget/CounterCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { getUsers } from "@/service/dashboard";
 
 const now = new Date();
 
 const DashboardPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const authData: any = useSelector(
+    (state: RootState) => state.authReducer.value
+  );
+
+  const getAnalytics = async () => {
+    const response = await getUsers();
+
+    console.log(response);
+  };
+
+  useEffect(() => {
+    getAnalytics();
+  }, []);
+
   return (
-    <DashboardInnerLayout title="Hello, Daniel">
+    <DashboardInnerLayout title={`Hello, ${authData?.user?.first_name}`}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {CardData.length &&
           CardData.map((cardItem) => (
