@@ -2,19 +2,30 @@
 import { getUserAnalytics } from "@/service/user";
 import CardData from "@/utils/data/UsersAnalytics.json";
 import VMIcons from "@/utils/icons";
-import { Button, Spinner } from "@nextui-org/react";
+import {
+  Button,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Spinner,
+  User,
+} from "@nextui-org/react";
 import { Refresh2 } from "iconsax-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import DashboardInnerLayout from "../components/General/Dashboard/DashboardInnerLayout";
 import BasicCard from "../components/General/Widget/BasicCard";
 import CounterCard from "../components/General/Widget/CounterCard";
-import UserTable from "../components/General/Widget/DatatTable/UserTable";
+import LatestTable from "../components/General/Widget/DatatTable/LatestTable";
 import UserDetails from "../components/User/UserDetails";
+import { ChevronDownIcon } from "../components/Icons/ChevronDownIcon";
 
 const UsersPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [isShowModal, setIsShowModal] = useState(false);
   const [userID, setuserID] = useState<any>("");
   const [analyticsData, setAnalyticsData] = useState<any>({
@@ -26,14 +37,13 @@ const UsersPage = () => {
 
   const getAnalytics = async () => {
     setIsLoading(true);
-    const { userAnalytics, allUsers }: any = await getUserAnalytics();
+    const { userAnalytics }: any = await getUserAnalytics();
     if (userAnalytics) {
       setAnalyticsData({
         ...analyticsData,
         users: userAnalytics?.total_users,
         admin: userAnalytics?.total_admin_users,
         banned: userAnalytics?.total_banned_users,
-        allUsers,
       });
       setTimeout(() => {
         setIsLoading(false);
@@ -82,15 +92,151 @@ const UsersPage = () => {
             ))}
         </div>
         <div className="mt-6">
-          <BasicCard title="" desc="" options={<></>} maxHeight="auto">
-            {isLoading ? (
+          {isLoading ? (
+            <BasicCard title="" desc="" options={<></>} maxHeight="auto">
               <div className="flex items-center justify-center h-[200px] text-center">
                 <Spinner />
               </div>
-            ) : (
-              <UserTable tableData={analyticsData.allUsers} />
-            )}
-          </BasicCard>
+            </BasicCard>
+          ) : (
+            <BasicCard
+              title=""
+              desc=""
+              options={<></>}
+              maxHeight="auto"
+              isPadding={true}
+            >
+              <LatestTable
+                url="/users/"
+                enableRowSelection={false}
+                enableRowActions={true}
+                TableColumns={[
+                  {
+                    accessorFn: (row: any) => `${row.display_name}`, //accessorFn used to join multiple data into a single cell
+                    id: "display_name", //id is still required when using accessorFn instead of accessorKey
+                    header: "Name",
+                    // size: 350,
+                    Cell: ({ renderedCellValue, row }: any) => (
+                      <User
+                        avatarProps={{
+                          radius: "lg",
+                          src: row.original.profile_picture_url,
+                        }}
+                        description={row.original.email}
+                        name={renderedCellValue}
+                      >
+                        {row.original.email}
+                      </User>
+                    ),
+                  },
+                  {
+                    accessorKey: "personality",
+                    header: "Personality",
+                  },
+                  {
+                    accessorKey: "country",
+                    header: "Country",
+                  },
+                  {
+                    accessorKey: "views",
+                    header: "Views",
+                  },
+                  {
+                    accessorFn: (row: any) => `${row.display_name}`, //accessorFn used to join multiple data into a single cell
+                    id: "is_verified", //id is still required when using accessorFn instead of accessorKey
+                    header: "Status",
+                    Cell: ({ renderedCellValue, row }: any) => (
+                      <Chip
+                        className="capitalize"
+                        color={row.original.is_verified ? "success" : "danger"}
+                        size="sm"
+                        variant="flat"
+                      >
+                        {row.original.is_verified ? "Verified" : "Not Verified"}
+                      </Chip>
+                    ),
+                  },
+                  // {
+                  //   accessorKey: "size",
+                  //   header: "ACTION",
+                  //   size: 60,
+                  //   //custom conditional format and styling
+                  //   Cell: ({ cell, row }: any) => (
+                  //     <div className="relative flex justify-center items-center gap-2">
+                  //       <Dropdown>
+                  //         <DropdownTrigger
+                  //           style={{
+                  //             position: "relative",
+                  //             zIndex: 0,
+                  //           }}
+                  //         >
+                  //           <Button
+                  //             endContent={
+                  //               <ChevronDownIcon className="text-small" />
+                  //             }
+                  //             variant="flat"
+                  //           >
+                  //             Manage
+                  //           </Button>
+                  //         </DropdownTrigger>
+                  //         <DropdownMenu>
+                  //           <DropdownItem
+                  //             onClick={() => {
+                  //               router.push(
+                  //                 `/users?viewUser=${row.original.id}`,
+                  //                 {
+                  //                   scroll: false,
+                  //                 }
+                  //               );
+                  //             }}
+                  //           >
+                  //             View
+                  //           </DropdownItem>
+                  //           <DropdownItem>Edit</DropdownItem>
+                  //         </DropdownMenu>
+                  //       </Dropdown>
+                  //     </div>
+                  //   ),
+                  // },
+                  //end
+                ]}
+                renderRowActions={({ row, table }: any) => (
+                  <div className="relative flex justify-center items-center gap-2">
+                    <Dropdown>
+                      <DropdownTrigger
+                        style={{
+                          position: "relative",
+                          zIndex: 0,
+                        }}
+                      >
+                        <Button
+                          endContent={
+                            <ChevronDownIcon className="text-small" />
+                          }
+                          variant="flat"
+                        >
+                          Manage
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu>
+                        <DropdownItem
+                          onClick={() => {
+                            router.push(`/users?viewUser=${row.original.id}`, {
+                              scroll: false,
+                            });
+                          }}
+                        >
+                          View
+                        </DropdownItem>
+                        <DropdownItem>Edit</DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                )}
+              />
+              {/* <UserTable tableData={analyticsData.allUsers} /> */}
+            </BasicCard>
+          )}
         </div>
       </DashboardInnerLayout>
     </>

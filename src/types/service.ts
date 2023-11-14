@@ -1,4 +1,5 @@
 import { SVGProps } from "react";
+import { Control, SubmitHandler } from "react-hook-form";
 
 export interface IFormInputs {
   username: string;
@@ -63,4 +64,28 @@ export interface VMTabTypes {
 
 export interface ChildType {
   children: React.ReactNode;
+}
+
+export interface LoginFormValues {
+  username: string;
+  password: string;
+}
+
+export interface OnSubmitLogin {
+  onSubmit: SubmitHandler<LoginFormValues>;
+}
+
+export interface AuthForm {
+  control: Control<LoginFormValues>;
+  handleSubmit: any;
+  onSubmit: SubmitHandler<LoginFormValues>;
+  isLoading: boolean;
+}
+
+export interface LatestTableType {
+  url: string;
+  TableColumns: any[];
+  enableRowSelection: boolean;
+  enableRowActions: boolean;
+  renderRowActions: any;
 }

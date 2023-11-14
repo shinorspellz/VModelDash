@@ -30,9 +30,8 @@ export const Logout = async () => {
 
 export const getUserAnalytics = async () => {
   try {
-    const [userAnalytics, allUsers] = await Promise.allSettled([
+    const [userAnalytics] = await Promise.allSettled([
       request.get(`/users/analytics/`),
-      request.get(`/users/`),
     ]);
 
     return {
@@ -40,8 +39,6 @@ export const getUserAnalytics = async () => {
         userAnalytics?.status === "fulfilled"
           ? userAnalytics?.value?.data
           : null,
-      allUsers:
-        allUsers?.status === "fulfilled" ? allUsers?.value?.results : null,
     };
   } catch (err) {
     return err;

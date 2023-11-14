@@ -32,16 +32,16 @@ const DashboardPage = () => {
   );
 
   const getAnalytics = async () => {
-    const response: any = await getDashboardAnalytics();
-    if (response) {
-      const { userAnalytics, bookings, coupons, services, jobs } = response;
+    const { data }: any = await getDashboardAnalytics();
+    if (data) {
       setAnalyticsData({
         ...analyticsData,
-        users: userAnalytics?.total_users,
-        coupons: coupons?.count,
-        services: services?.count,
-        jobs: jobs?.count,
-        bookings: bookings?.count,
+        users: data?.total_number_of_users,
+        coupons: data?.total_number_of_coupons,
+        services: data?.total_number_of_services,
+        jobs: data?.total_number_of_jobs,
+        bookings: data?.total_number_of_bookings,
+        applications: data?.total_number_of_applications,
       });
       setTimeout(() => {
         setIsLoading(false);

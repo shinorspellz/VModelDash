@@ -1,20 +1,21 @@
 "use client";
 
-import { Button, Card, CardBody, Input } from "@nextui-org/react";
-import React, { useState } from "react";
-import AuthHeader from "./AuthHeader";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { logIn } from "@/redux/features/auth-slice";
+import { AppDispatch } from "@/redux/store";
+import { Login } from "@/service/user";
 import { IFormInputs } from "@/types/service";
-import TextInput from "../General/TextInput";
+import { Button, Card, CardBody } from "@nextui-org/react";
+import { sign } from "jsonwebtoken";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Login } from "@/service/user";
-import { sign } from "jsonwebtoken";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { logIn } from "@/redux/features/auth-slice";
 import { Alerter } from "../General/Alerter";
+import TextInput from "../General/TextInput";
+import AuthHeader from "./AuthHeader";
+import AuthForm from "./AuthForm";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -111,7 +112,7 @@ const LoginPage = () => {
           AlertTimeout={5000}
         />
       )}
-      <div className="vm-bg flex py-8 fixed w-full h-full items-center justify-center">
+      <div className="vm-bg-dark flex py-8 fixed w-full h-full items-center justify-center">
         <AuthHeader />
         <div className="px-4 md:px-0 max-w-[500px] w-full">
           <Card className="vm-shadow-sm">
@@ -123,47 +124,12 @@ const LoginPage = () => {
                 </p>
               </div>
               <div className="px-1 md:pt-4 pb-8 md:px-6">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="space-y-6">
-                    <TextInput
-                      type="text"
-                      placeholder="Enter your username"
-                      control={control}
-                      label={"Username"}
-                      name="username"
-                      id="username"
-                      required={"Username is required"}
-                    />
-                    <TextInput
-                      type="password"
-                      placeholder="Enter your password"
-                      control={control}
-                      label={"Password"}
-                      name="password"
-                      id="password"
-                      required={"Password is required"}
-                    />
-                    <Button
-                      type="submit"
-                      color="primary"
-                      isLoading={isLoading}
-                      style={{
-                        height: 56,
-                        outline: "none !important",
-                      }}
-                      className="w-full outline-none"
-                    >
-                      Log In
-                    </Button>
-                    <div className="text-center">
-                      <Link href="/">
-                        <div className="text-primary text-sm">
-                          Forgot Password?
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                </form>
+                <AuthForm
+                  control={control}
+                  handleSubmit={handleSubmit}
+                  isLoading={isLoading}
+                  onSubmit={onSubmit}
+                />
               </div>
             </CardBody>
           </Card>

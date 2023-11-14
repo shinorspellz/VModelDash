@@ -8,7 +8,7 @@ const AuthHeader = () => {
       <div className="container vm-container">
         <div className="h-[64px] flex flex-row">
           <Link href="/">
-            <Logo />
+            <Logo isDark={true} />
           </Link>
         </div>
       </div>

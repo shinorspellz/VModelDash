@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: 84, 59, 59;
+  --primary-color: #503c3b;
   --secondary-color: 237, 206, 171;
   --primary-color-op: 222, 217, 217;
   --foreground-rgb: 0, 0, 0;
@@ -13,6 +13,10 @@
 
 .vm-bg {
   background-color: rgb(var(--background-start-rgb));
+}
+
+.vm-bg-dark {
+  background-color: var(--primary-color);
 }
 
 .vm-bg-primary {
@@ -94,10 +98,19 @@
 
   .vm-dashbody {
     padding-left: 0 !important;
+    width: 100% !important;
+    left: 0 !important;
   }
 
   .vm-header {
     left: 0 !important;
     width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .vm-dashbody {
+    width: 100% !important;
+    left: 0 !important;
   }
 }

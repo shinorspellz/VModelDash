@@ -36,7 +36,12 @@ const AuthGuard = (props: ChildType) => {
   if (!checked) {
     return (
       <>
-        <div className="absolute left-0 w-full h-full flex items-center justify-center top-0">
+        <div
+          className="absolute left-0 w-full h-full flex items-center justify-center top-0"
+          style={{
+            backgroundColor: "",
+          }}
+        >
           <Spinner size="lg" />
         </div>
       </>

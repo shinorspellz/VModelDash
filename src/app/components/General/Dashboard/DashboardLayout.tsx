@@ -33,7 +33,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="vm-bg w-full h-screen overflow-hidden overflow-y-auto">
       <header
-        className="vm-header sticky z-[1100] top-0 shadow-md"
+        className="vm-header sticky z-[999] top-0 shadow-md"
         style={{
           backgroundColor: "#fff",
           backdropFilter: "blur(6px)",
@@ -101,9 +101,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </Drawer>
       </div>
       <div
-        className="vm-dashbody pl-[280px] flex max-w-full"
+        className="vm-dashbody relative z-[998] left-[280px] flex max-w-full"
         style={{
           flex: "1 1 auto",
+          width: "calc(100% - 280px)",
         }}
       >
         <div

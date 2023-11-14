@@ -61,7 +61,11 @@ const ProfileNav = ({ profileData }: any) => {
               <p className="font-bold">@{authData?.username}</p>
             </DropdownItem>
             <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={_handleLogout}>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onClick={() => _handleLogout()}
+            >
               Log Out
             </DropdownItem>
           </DropdownMenu>
