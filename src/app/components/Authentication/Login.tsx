@@ -16,6 +16,7 @@ import { Alerter } from "../General/Alerter";
 import TextInput from "../General/TextInput";
 import AuthHeader from "./AuthHeader";
 import AuthForm from "./AuthForm";
+import VMHeader from "../General/VMHeader";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -112,27 +113,33 @@ const LoginPage = () => {
           AlertTimeout={5000}
         />
       )}
-      <div className="vm-bg-dark flex py-8 fixed w-full h-full items-center justify-center">
-        <AuthHeader />
-        <div className="px-4 md:px-0 max-w-[500px] w-full">
-          <Card className="vm-shadow-sm">
-            <CardBody>
-              <div className="px-1 md:px-6 pt-8 pb-2">
-                <h3 className="font-bold text-[18px]">Welcome Back!</h3>
-                <p className="opacity-60 text-sm">
-                  Login with your valid credentials.
-                </p>
-              </div>
-              <div className="px-1 md:pt-4 pb-8 md:px-6">
-                <AuthForm
-                  control={control}
-                  handleSubmit={handleSubmit}
-                  isLoading={isLoading}
-                  onSubmit={onSubmit}
-                />
-              </div>
-            </CardBody>
-          </Card>
+      <div className="vm-bg-dark flex flex-col fixed w-full h-full">
+        {/* <AuthHeader /> */}
+        <div>
+          <VMHeader />
+        </div>
+        <div className="flex w-full h-full md:items-center md:justify-center mt-12 md:mt-0">
+          <div className="px-4 md:px-0 max-w-[500px] w-full">
+            <Card className="vm-shadow-sm">
+              <CardBody>
+                <div className="px-1 md:px-6 pt-8 pb-2">
+                  <h3 className="font-bold text-[18px]">Welcome Back!</h3>
+                  <p className="opacity-60 text-sm">
+                    Login with your valid credentials. You must be a VModel
+                    employee to login.
+                  </p>
+                </div>
+                <div className="px-1 md:pt-4 pb-8 md:px-6">
+                  <AuthForm
+                    control={control}
+                    handleSubmit={handleSubmit}
+                    isLoading={isLoading}
+                    onSubmit={onSubmit}
+                  />
+                </div>
+              </CardBody>
+            </Card>
+          </div>
         </div>
       </div>
     </>

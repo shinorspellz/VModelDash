@@ -1,5 +1,5 @@
 "use client";
-import { getUserAnalytics } from "@/service/user";
+import { delUserDetails, getUserAnalytics } from "@/service/user";
 import CardData from "@/utils/data/UsersAnalytics.json";
 import VMIcons from "@/utils/icons";
 import {
@@ -19,11 +19,19 @@ import DashboardInnerLayout from "../components/General/Dashboard/DashboardInner
 import BasicCard from "../components/General/Widget/BasicCard";
 import CounterCard from "../components/General/Widget/CounterCard";
 import LatestTable from "../components/General/Widget/DatatTable/LatestTable";
-import UserDetails from "../components/User/UserDetails";
 import { ChevronDownIcon } from "../components/Icons/ChevronDownIcon";
+import { PLoader } from "../components/LoaderAlert";
+import EditUser from "../components/User/EditUser";
+import UserDetails from "../components/User/UserDetails";
+import { Alerter } from "../components/General/Alerter";
 
 const UsersPage = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isOpenEdit, setIsOpenEdit] = useState({
+    open: false,
+    userID: "",
+    userData: {},
+  });
   const searchParams = useSearchParams();
   const router = useRouter();
   const [isShowModal, setIsShowModal] = useState(false);
@@ -34,6 +42,28 @@ const UsersPage = () => {
     banned: 0,
     allUsers: [],
   });
+  const [isPopLoader, setIsPopLoader] = useState({
+    open: false,
+    text: "",
+  });
+
+  const [NotificateionAlert, setNotificateionAlert] = useState({
+    isEnabled: false,
+    message: "",
+    type: "",
+  });
+
+  const alertPreviewer = (
+    AlStatus: boolean,
+    AlStmt: string,
+    AlType: string
+  ) => {
+    setNotificateionAlert({
+      isEnabled: AlStatus,
+      message: AlStmt,
+      type: AlType,
+    });
+  };
 
   const getAnalytics = async () => {
     setIsLoading(true);
@@ -61,8 +91,50 @@ const UsersPage = () => {
   useEffect(() => {
     getAnalytics();
   }, []);
+
+  const _handleDelete = async (userID: any) => {
+    setIsPopLoader({
+      open: true,
+      text: "Deleting user, Please wait....",
+    });
+    const response: any = await delUserDetails(userID);
+    if (response?.status) {
+      alertPreviewer(true, "User Deleted Successfully", "success");
+    } else {
+      alertPreviewer(true, "An error occured. Please try again", "error");
+    }
+
+    setIsPopLoader({
+      open: false,
+      text: "",
+    });
+  };
   return (
     <>
+      {NotificateionAlert.isEnabled && (
+        <Alerter
+          Alerttype={NotificateionAlert.type}
+          AlertStmt={NotificateionAlert.message}
+          AlertTimeout={5000}
+        />
+      )}
+      {isPopLoader?.open && (
+        <PLoader showLiner={false} popText={isPopLoader?.text} />
+      )}
+
+      {isOpenEdit?.open && (
+        <EditUser
+          options={{
+            onClose: () =>
+              setIsOpenEdit({
+                open: false,
+                userID: "",
+                userData: {},
+              }),
+            meta: { ...isOpenEdit?.userData },
+          }}
+        />
+      )}
       {isShowModal && <UserDetails userID={userID} />}
       <DashboardInnerLayout
         title="Users"
@@ -228,7 +300,22 @@ const UsersPage = () => {
                         >
                           View
                         </DropdownItem>
-                        <DropdownItem>Edit</DropdownItem>
+                        <DropdownItem
+                          onClick={() =>
+                            setIsOpenEdit({
+                              open: true,
+                              userID: row.original.id,
+                              userData: row.original,
+                            })
+                          }
+                        >
+                          Edit
+                        </DropdownItem>
+                        <DropdownItem
+                          onClick={() => _handleDelete(row.original.id)}
+                        >
+                          Delete
+                        </DropdownItem>
                       </DropdownMenu>
                     </Dropdown>
                   </div>

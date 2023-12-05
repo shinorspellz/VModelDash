@@ -20,6 +20,8 @@ import { UserBasicDetails } from "./UserBasicDetails";
 import { AboutUser } from "./AboutUser";
 import UserActivities from "./UserActivities";
 import UserActMore from "./UserActMore";
+import EditUser from "./EditUser";
+import Image from "next/image";
 
 const tabs = [
   { label: "About", value: "details" },
@@ -29,6 +31,10 @@ const tabs = [
 const UserDetails = ({ userID }: { userID: string }) => {
   const [currentTab, setCurrentTab] = useState("details");
   const [isLoading, setIsLoading] = useState(true);
+  const [isOpenEdit, setIsOpenEdit] = useState({
+    open: false,
+    userID: "",
+  });
   const [userData, setUserData] = useState<any>({});
   const handleTabsChange = useCallback((event: any, value: any) => {
     setCurrentTab(value);
@@ -48,6 +54,19 @@ const UserDetails = ({ userID }: { userID: string }) => {
 
   return (
     <VMModal url="/users" backTitle="Users">
+      {isOpenEdit?.open && (
+        <EditUser
+          options={{
+            onClose: () =>
+              setIsOpenEdit({
+                open: false,
+                userID: "",
+              }),
+            meta: { ...userData },
+          }}
+        />
+      )}
+
       {!isLoading ? (
         <>
           <Stack
@@ -69,7 +88,23 @@ const UserDetails = ({ userID }: { userID: string }) => {
               >
                 {getInitials(userData?.display_name)}
               </Avatar>
-              <Stack spacing={1}>
+              <Stack spacing={1} className="relative">
+                <div className="absolute right-[20px] top-5 w-[20px] h-[20px]  rounded-full">
+                  <Image
+                    alt="Verified"
+                    priority
+                    src={`/assets/images/verified.png`}
+                    width={20}
+                    height={20}
+                    style={{
+                      filter: userData?.blue_tick_verify
+                        ? ""
+                        : "grayscale(100%)",
+                    }}
+                    className="rounded-[999px]"
+                  />
+                </div>
+
                 <Typography variant="h4">{userData?.display_name}</Typography>
                 <Stack alignItems="center" direction="row" spacing={1}>
                   <Typography variant="subtitle2">Email Address:</Typography>
@@ -81,7 +116,12 @@ const UserDetails = ({ userID }: { userID: string }) => {
               <Button
                 color="primary"
                 variant="contained"
-                disabled
+                onClick={() =>
+                  setIsOpenEdit({
+                    open: true,
+                    userID: userData?.id,
+                  })
+                }
                 startIcon={<Magicpen size="32" color="rgba(255,255,255,.8)" />}
                 sx={{
                   borderRadius: 40,
@@ -90,7 +130,7 @@ const UserDetails = ({ userID }: { userID: string }) => {
                   paddingRight: 4,
                 }}
               >
-                Manage
+                Edit User
               </Button>
             </Stack>
           </Stack>

@@ -1,6 +1,5 @@
 import { InputTypes } from "@/types/service";
-import { Input, Textarea, extendVariants } from "@nextui-org/react";
-import { Eye, EyeSlash } from "iconsax-react";
+import { Input, Select, SelectItem, extendVariants } from "@nextui-org/react";
 import React from "react";
 import { Controller } from "react-hook-form";
 
@@ -75,8 +74,7 @@ const MyInput = extendVariants(Input, {
     removeLabel: true,
   },
 });
-
-const TextInput: React.FC<InputTypes> = (props: InputTypes) => {
+const SelectDropDown: React.FC<InputTypes> = (props: InputTypes) => {
   const {
     type,
     placeholder,
@@ -84,12 +82,9 @@ const TextInput: React.FC<InputTypes> = (props: InputTypes) => {
     name,
     required,
     id,
-    isTextArea,
+    listItems,
     ...others
   } = props;
-  const [isVisible, setIsVisible] = React.useState(false);
-
-  const toggleVisibility = () => setIsVisible(!isVisible);
   return (
     <>
       <Controller
@@ -99,55 +94,23 @@ const TextInput: React.FC<InputTypes> = (props: InputTypes) => {
         render={({ field, fieldState: { invalid, error } }) => {
           return (
             <div className={`${error?.message && "pb-2"}`}>
-              {!isTextArea ? (
-                <MyInput
-                  type={isVisible ? "text" : type}
+              {listItems && (
+                <Select
                   {...field}
                   {...others}
-                  autoComplete="off"
-                  isInvalid={error ? true : false}
-                  errorMessage={error?.message}
-                  variant="bordered"
-                  endContent={
-                    type == "password" && (
-                      <div className="top-[1px] relative">
-                        <button
-                          className="focus:outline-none"
-                          type="button"
-                          onClick={toggleVisibility}
-                        >
-                          {isVisible ? (
-                            <EyeSlash
-                              size="27"
-                              color="#71717A"
-                              variant="Bold"
-                              className="text-2xl text-default-400 pointer-events-none"
-                            />
-                          ) : (
-                            <Eye
-                              size="27"
-                              color="#71717A"
-                              variant="Bold"
-                              className="text-2xl text-default-400 pointer-events-none"
-                            />
-                          )}
-                        </button>
-                      </div>
-                    )
-                  }
-                />
-              ) : (
-                <Textarea
-                  {...field}
-                  {...others}
-                  variant="bordered"
+                  label={placeholder}
                   isInvalid={error ? true : false}
                   errorMessage={error?.message}
                   className="w-full"
-                />
+                  variant="bordered"
+                >
+                  {listItems.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </Select>
               )}
-
-              {/* {error?.message != "" && <div className="h-[1px]"></div>} */}
             </div>
           );
         }}
@@ -156,4 +119,4 @@ const TextInput: React.FC<InputTypes> = (props: InputTypes) => {
   );
 };
 
-export default TextInput;
+export default SelectDropDown;

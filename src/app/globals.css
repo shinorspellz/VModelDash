@@ -5,6 +5,7 @@
 :root {
   --primary-color: #503c3b;
   --secondary-color: 237, 206, 171;
+  --vm-secondary: #edceab;
   --primary-color-op: 222, 217, 217;
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 230, 228, 228;
@@ -12,7 +13,7 @@
 }
 
 .vm-bg {
-  background-color: rgb(var(--background-start-rgb));
+  background-color: rgb(230, 228, 228);
 }
 
 .vm-bg-dark {
@@ -22,8 +23,29 @@
 .vm-bg-primary {
   background-color: rgb(var(--primary-color));
 }
+
+.vm-link a {
+  color: var(--vm-secondary);
+  font-weight: 500;
+  line-height: 18px;
+  font-size: 16px;
+}
+
+.vm-link a.vm-link-active {
+  color: #fff !important;
+}
+
+.vm-hover:hover {
+  background-color: rgba(237, 206, 171, 0.2);
+  transition: all 0.3s ease;
+}
+
 .vm-bg-primary-op {
   background-color: rgb(var(--primary-color-op));
+}
+
+.vm-text-sec {
+  color: var(--vm-secondary);
 }
 .vm-container {
   width: 100%;
@@ -57,6 +79,14 @@
   flex-direction: column !important;
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.vm-accord .MuiSvgIcon-root {
+  color: #d6c2b4 !important;
+}
+
+.vm-drawer-root.MuiPaper-root {
+  background-color: var(--primary-color) !important;
 }
 
 .MuiListItem-divider {
@@ -112,5 +142,48 @@
   .vm-dashbody {
     width: 100% !important;
     left: 0 !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .vm-display-md {
+    display: block !important;
+  }
+  .vm-hidden-md {
+    display: none !important;
+  }
+
+  .vm-no-p-right {
+    padding-right: 0 !important;
+  }
+
+  .vm-no-p-left {
+    padding-left: 0 !important;
+  }
+
+  .vm-no-p-top {
+    padding-top: 0 !important;
+  }
+
+  .vm-no-p-bottom {
+    padding-bottom: 0 !important;
+  }
+
+  .vm-no-br br {
+    display: none !important;
+  }
+
+  .vm-no-bold {
+    font-weight: normal !important;
+  }
+
+  .vm-h3-ext {
+    font-size: 20px !important;
+    letter-spacing: normal !important;
+  }
+
+  .vm-h1-md {
+    font-size: 40px !important;
+    line-height: normal !important;
   }
 }

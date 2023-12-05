@@ -36,7 +36,7 @@ const SidebarItem = (props: SidebarItemType) => {
 const SidebarLayout = ({ pathname }: { pathname: string }) => {
   return (
     <div
-      className="fixed vm-bg-dark h-full z-[99] flex-col flex overflow-hidden left-0 top-0"
+      className="fixed vm-bg-dark h-full z-[10] flex-col flex overflow-hidden left-0 top-0"
       style={{
         transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
         width: "280px",

@@ -1,0 +1,36 @@
+@media (min-width: 375px) {
+  .sbarListItem {
+    padding: 16px 20px;
+  }
+}
+
+.sbarListItem:hover {
+  background: #edceab;
+}
+
+.sbarListItem::after {
+  bottom: 0px;
+  content: "";
+  position: absolute;
+  right: 0px;
+  height: 1px;
+  background: #edceab;
+  left: 0px !important;
+}
+
+.sbarListItem:last-child:after {
+  background: transparent;
+}
+
+.separator {
+  background: #edceab;
+  height: 1px;
+  border: none;
+  width: 100%;
+}
+
+@media (max-width: 7689px) {
+  .sbarListItem:hover {
+    background: #655251 !important;
+  }
+}

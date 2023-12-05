@@ -138,6 +138,29 @@ export const request: RequestInt = {
       return { message, statusCode };
     }
   },
+  put: async ({ url, data, headers = {} }) => {
+    try {
+      const Authorization = await cache.get(CACHE_KEYS.TOKEN);
+      const requestParams = {
+        url: Env.API_BASE_URL + url,
+        method: "PUT",
+        data,
+        headers: {
+          ...headers,
+          Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+        },
+      };
+
+      if (!Env.isProd) devLog("PUT", requestParams);
+      const response = await Axios(requestParams);
+
+      devLog("POST response", response);
+      return response.data;
+    } catch (err) {
+      const { message, statusCode } = handleError(err as Error);
+      return { message, statusCode };
+    }
+  },
 };
 
 export const objectToQueryString = (params: Record<string, any>) => {

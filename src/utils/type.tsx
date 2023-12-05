@@ -25,7 +25,11 @@ export interface RequestInt {
     data?: GlobalRecord;
     headers?: GlobalRecord;
   }) => Promise<RequestResponseInt>;
-
+  put: (params: {
+    url: string;
+    data?: GlobalRecord;
+    headers?: GlobalRecord;
+  }) => Promise<RequestResponseInt>;
   get: (
     url: string,
     headers?: Record<string, string | number>

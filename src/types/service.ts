@@ -6,14 +6,27 @@ export interface IFormInputs {
   password: string;
 }
 
+export interface IFormInputBasic {
+  first_name: string;
+  last_name: string;
+  display_name: string;
+}
+
 export interface InputTypes {
-  type: "text" | "password";
+  type?: "text" | "password";
   placeholder: string;
   id: string;
   name: string;
   control: any;
   label: string;
   required?: string;
+  isTextArea?: boolean;
+  listItems?:
+    | {
+        label: string;
+        value: string;
+      }[]
+    | undefined;
 }
 
 export interface SidebarItemType {

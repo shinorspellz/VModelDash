@@ -53,3 +53,24 @@ export const getUserDetails = async (userID: string) => {
     return err;
   }
 };
+
+export const updUserDetails = async ({ userID, data }: any) => {
+  try {
+    const response = await request.put({
+      url: `/users/update/${userID}/`,
+      data,
+    });
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const delUserDetails = async (userID: any) => {
+  try {
+    const response = await request.delete(`/users/delete/${userID}/`);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
