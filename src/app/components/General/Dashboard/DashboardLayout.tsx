@@ -101,7 +101,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </Drawer>
       </div>
       <div
-        className="vm-dashbody relative z-[22] left-[280px] flex max-w-full"
+        className="vm-dashbody relative z-[8] left-[280px] flex max-w-full"
         style={{
           flex: "1 1 auto",
           width: "calc(100% - 280px)",

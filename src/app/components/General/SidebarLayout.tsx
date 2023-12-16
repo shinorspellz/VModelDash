@@ -8,6 +8,7 @@ import { Button } from "@nextui-org/react";
 import VMIcons from "@/utils/icons";
 
 import SidebarData from "@/utils/data/Sidebar.json";
+import { VMLogo } from "./VMLogo";
 
 const SidebarItem = (props: SidebarItemType) => {
   const { title, icon, isActive, url } = props;
@@ -45,7 +46,14 @@ const SidebarLayout = ({ pathname }: { pathname: string }) => {
     >
       <div className="h-[120px] w-full flex  items-center justify-center">
         <Link href="/dashboard">
-          <Logo isDark={true} />
+          {/* <Logo isDark={true} /> */}
+          <VMLogo
+            isFull={true}
+            isDark={true}
+            width={200}
+            height={190}
+            className="vm-logo-mobile"
+          />
         </Link>
       </div>
       <ScrollBar styles={{ maxHeight: "calc(100vh - 120px)" }}>

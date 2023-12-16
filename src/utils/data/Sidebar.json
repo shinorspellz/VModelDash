@@ -30,6 +30,12 @@
     "url": "/coupons"
   },
   {
+    "id": 7,
+    "title": "Subscribers",
+    "icon": "users",
+    "url": "/subscribers"
+  },
+  {
     "id": 5,
     "title": "Reports",
     "icon": "report",

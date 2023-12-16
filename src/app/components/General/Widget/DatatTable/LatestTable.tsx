@@ -2,9 +2,6 @@ import { LatestTableType } from "@/types/service";
 import { cache } from "@/utils";
 import { CACHE_KEYS } from "@/utils/constants";
 import Env from "@/utils/env/index";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box, IconButton, Tooltip } from "@mui/material";
 import axios from "axios";
 import {
   MaterialReactTable,
@@ -43,7 +40,7 @@ const LatestTable = ({
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
   const [pagination, setPagination] = useState<MRT_PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 50,
   });
 
   //if you want to avoid useEffect, look at the React Query example instead
@@ -115,6 +112,11 @@ const LatestTable = ({
     positionActionsColumn: "last",
     enableStickyFooter: true,
     manualSorting: true,
+    muiPaginationProps: {
+      rowsPerPageOptions: [50, 100, 150, 200, 250, 300],
+      showFirstButton: false,
+      showLastButton: false,
+    },
     muiToolbarAlertBannerProps: isError
       ? {
           color: "error",
