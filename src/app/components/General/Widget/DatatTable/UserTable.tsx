@@ -168,7 +168,7 @@ export default function UserTable({ tableData }: any) {
       case "actions":
         return (
           <div className="relative flex justify-center items-center gap-2">
-            <Dropdown>
+            <Dropdown aria-label="button" closeOnSelect>
               <DropdownTrigger>
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}

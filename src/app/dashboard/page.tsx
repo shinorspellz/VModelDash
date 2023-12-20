@@ -90,7 +90,7 @@ const DashboardPage = () => {
       </div>
       <div className="mt-6">
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={12}>
             <BasicCard
               title="Recent Bookings"
               desc="Most Recent Booking"

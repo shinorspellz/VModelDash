@@ -187,3 +187,7 @@
     line-height: normal !important;
   }
 }
+
+:disabled {
+  cursor: not-allowed !important;
+}

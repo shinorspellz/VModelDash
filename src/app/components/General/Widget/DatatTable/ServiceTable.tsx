@@ -58,7 +58,7 @@ const ServiceTable = ({ tableData }: any) => {
         ]}
         renderRowActions={({ row, table }: any) => (
           <div className="relative flex justify-center items-center gap-2">
-            <Dropdown>
+            <Dropdown aria-label="button" closeOnSelect>
               <DropdownTrigger
                 style={{
                   position: "relative",

@@ -7,9 +7,12 @@ export interface IFormInputs {
 }
 
 export interface IFormInputBasic {
-  first_name: string;
-  last_name: string;
-  display_name: string;
+  first_name?: string;
+  last_name?: string;
+  display_name?: string;
+  ucat?: string;
+  utype?: string;
+  ustype?: string;
 }
 
 export interface InputTypes {
@@ -21,6 +24,7 @@ export interface InputTypes {
   label: string;
   required?: string;
   isTextArea?: boolean;
+  disabled?: boolean;
   listItems?:
     | {
         label: string;
@@ -102,3 +106,16 @@ export interface LatestTableType {
   enableRowActions: boolean;
   renderRowActions: any;
 }
+
+export type TgetUserType =
+  | {
+      data: {};
+      status: boolean;
+      message: string;
+    }
+  | any;
+
+export type TDropDown = {
+  lable: string;
+  value: string;
+}[];

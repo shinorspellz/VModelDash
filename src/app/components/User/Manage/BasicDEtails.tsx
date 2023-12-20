@@ -112,29 +112,6 @@ const BasicDEtails = ({ userData }: { userData: any }) => {
           id="email"
           required={"Email Address is required"}
         /> */}
-
-          {/* <SelectDropDown
-          placeholder="Select Gender"
-          control={control}
-          label={"Select Gender"}
-          name="gender"
-          id="gender"
-          required={"Gender is required"}
-          listItems={[
-            {
-              label: "Male",
-              value: "MALE",
-            },
-            {
-              label: "Female",
-              value: "FEMALE",
-            },
-            {
-              label: "Any",
-              value: "any",
-            },
-          ]}
-        /> */}
         </div>
         {/* <div className="w-full py-4">
         <TextInput

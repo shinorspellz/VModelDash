@@ -81,6 +81,14 @@ const UsersPage = () => {
     }
   };
 
+  const clearAlert = () => {
+    setNotificateionAlert({
+      isEnabled: false,
+      message: "",
+      type: "",
+    });
+  };
+
   useEffect(() => {
     const viewUser = searchParams.get("viewUser");
     setIsShowModal(false);
@@ -93,16 +101,21 @@ const UsersPage = () => {
   }, []);
 
   const _handleDelete = async (userID: any) => {
+    clearAlert();
     setIsPopLoader({
       open: true,
       text: "Deleting user, Please wait....",
     });
-    const response: any = await delUserDetails(userID);
-    if (response?.status) {
-      alertPreviewer(true, "User Deleted Successfully", "success");
-    } else {
-      alertPreviewer(true, "An error occured. Please try again", "error");
-    }
+    await delUserDetails(userID);
+    alertPreviewer(true, "User Deleted Successfully", "success");
+    getAnalytics();
+    // if (response?.status) {
+    //   alertPreviewer(true, "User Deleted Successfully", "success");
+    // } else {
+    //   alertPreviewer(true, "An error occured. Please try again", "error");
+    // }
+
+    /// console.log(response);
 
     setIsPopLoader({
       open: false,
@@ -115,7 +128,7 @@ const UsersPage = () => {
         <Alerter
           Alerttype={NotificateionAlert.type}
           AlertStmt={NotificateionAlert.message}
-          AlertTimeout={5000}
+          AlertTimeout={50000}
         />
       )}
       {isPopLoader?.open && (
@@ -274,14 +287,16 @@ const UsersPage = () => {
                 ]}
                 renderRowActions={({ row, table }: any) => (
                   <div className="relative flex justify-center items-center gap-2">
-                    <Dropdown>
+                    <Dropdown aria-label="button">
                       <DropdownTrigger
                         style={{
                           position: "relative",
                           zIndex: 0,
                         }}
+                        aria-label="button"
                       >
                         <Button
+                          aria-label="button"
                           endContent={
                             <ChevronDownIcon className="text-small" />
                           }
@@ -290,8 +305,10 @@ const UsersPage = () => {
                           Manage
                         </Button>
                       </DropdownTrigger>
-                      <DropdownMenu>
+                      <DropdownMenu aria-label="button">
                         <DropdownItem
+                          closeOnSelect
+                          aria-label="button"
                           onClick={() => {
                             router.push(`/users?viewUser=${row.original.id}`, {
                               scroll: false,
@@ -301,6 +318,8 @@ const UsersPage = () => {
                           View
                         </DropdownItem>
                         <DropdownItem
+                          aria-label="button"
+                          closeOnSelect
                           onClick={() =>
                             setIsOpenEdit({
                               open: true,
@@ -312,6 +331,8 @@ const UsersPage = () => {
                           Edit
                         </DropdownItem>
                         <DropdownItem
+                          closeOnSelect
+                          aria-label="button"
                           onClick={() => _handleDelete(row.original.id)}
                         >
                           Delete

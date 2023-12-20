@@ -10,7 +10,7 @@ const VMModal = ({ url, backTitle, children }: any) => {
         position: "fixed",
         left: "0",
         top: 0,
-        zIndex: "80",
+        zIndex: "40",
         width: "100%",
         height: "100%",
       }}

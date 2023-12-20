@@ -44,6 +44,7 @@ const UserDetails = ({ userID }: { userID: string }) => {
     const response: any = await getUserDetails(userID);
     if (response) {
       setIsLoading(false);
+      // console.log(response);
       setUserData(response?.data);
     }
   };
@@ -89,23 +90,26 @@ const UserDetails = ({ userID }: { userID: string }) => {
                 {getInitials(userData?.display_name)}
               </Avatar>
               <Stack spacing={1} className="relative">
-                <div className="absolute right-[20px] top-5 w-[20px] h-[20px]  rounded-full">
-                  <Image
-                    alt="Verified"
-                    priority
-                    src={`/assets/images/verified.png`}
-                    width={20}
-                    height={20}
-                    style={{
-                      filter: userData?.blue_tick_verify
-                        ? ""
-                        : "grayscale(100%)",
-                    }}
-                    className="rounded-[999px]"
-                  />
-                </div>
-
-                <Typography variant="h4">{userData?.display_name}</Typography>
+                <Typography variant="h4" className="relative">
+                  <span className="relative">
+                    {userData?.display_name}{" "}
+                    <div className="absolute -right-[30px] top-[9px] w-[20px] h-[20px]  rounded-full">
+                      <Image
+                        alt="Verified"
+                        priority
+                        src={`/assets/images/verified.png`}
+                        width={20}
+                        height={20}
+                        style={{
+                          filter: userData?.blue_tick_verified
+                            ? ""
+                            : "grayscale(100%)",
+                        }}
+                        className="rounded-[999px]"
+                      />
+                    </div>
+                  </span>
+                </Typography>
                 <Stack alignItems="center" direction="row" spacing={1}>
                   <Typography variant="subtitle2">Email Address:</Typography>
                   <Chip label={userData?.email} size="small" />

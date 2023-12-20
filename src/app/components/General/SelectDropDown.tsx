@@ -83,6 +83,7 @@ const SelectDropDown: React.FC<InputTypes> = (props: InputTypes) => {
     required,
     id,
     listItems,
+    disabled = false,
     ...others
   } = props;
   return (
@@ -93,19 +94,35 @@ const SelectDropDown: React.FC<InputTypes> = (props: InputTypes) => {
         rules={{ required: required ?? false }}
         render={({ field, fieldState: { invalid, error } }) => {
           return (
-            <div className={`${error?.message && "pb-2"}`}>
+            <div
+              className={`${error?.message && "pb-2"}`}
+              style={{
+                cursor: disabled ? "not-allowed !important" : "auto",
+              }}
+            >
               {listItems && (
                 <Select
                   {...field}
                   {...others}
                   label={placeholder}
+                  disabled={disabled}
                   isInvalid={error ? true : false}
                   errorMessage={error?.message}
-                  className="w-full"
+                  className={`w-full ${
+                    disabled && "cursor-not-allowed opacity-40"
+                  }`}
                   variant="bordered"
                 >
                   {listItems.map((item) => (
-                    <SelectItem key={item.value} value={item.value}>
+                    <SelectItem
+                      key={item.value}
+                      value={item.value}
+                      style={{
+                        overflow: "unset",
+                        textOverflow: "unset",
+                        whiteSpace: "unset",
+                      }}
+                    >
                       {item.label}
                     </SelectItem>
                   ))}

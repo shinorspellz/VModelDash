@@ -24,6 +24,8 @@ let last_name = "";
 let profile_picture_url = "";
 let username = "";
 
+//console.log(token);
+
 if (JSON.parse(token)?.data) {
   let decoded: any = decode(tokenData);
   // console.log(decoded);

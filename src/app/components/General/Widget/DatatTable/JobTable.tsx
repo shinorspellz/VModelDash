@@ -216,7 +216,7 @@ export default function JobTable({ tableData }: any) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Dropdown>
+            <Dropdown aria-label="button" closeOnSelect>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
@@ -240,7 +240,7 @@ export default function JobTable({ tableData }: any) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
+            <Dropdown aria-label="button" closeOnSelect>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}

@@ -164,7 +164,7 @@ const SubscriberPage = () => {
                 ]}
                 renderRowActions={({ row, table }: any) => (
                   <div className="relative flex justify-start items-center gap-2">
-                    <Dropdown>
+                    <Dropdown aria-label="button" closeOnSelect>
                       <DropdownTrigger
                         style={{
                           position: "relative",

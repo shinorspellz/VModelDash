@@ -55,7 +55,7 @@ const ProfileNav = ({ profileData }: any) => {
               }}
             />
           </DropdownTrigger>
-          <DropdownMenu aria-label="User Actions" variant="flat">
+          <DropdownMenu aria-label="User Actions" variant="flat" closeOnSelect>
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-bold">Signed in as</p>
               <p className="font-bold">@{authData?.username}</p>
