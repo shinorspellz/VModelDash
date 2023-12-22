@@ -11,7 +11,6 @@ import {
   User,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 import { useDispatch } from "react-redux";
 
 const ProfileNav = ({ profileData }: any) => {

@@ -4,17 +4,21 @@ import React, { useEffect, useState } from "react";
 import ProfileNav from "../../User/ProfileNav";
 import Moment from "react-moment";
 import SidebarLayout from "../SidebarLayout";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Drawer, IconButton } from "@mui/material";
 import { Menu as MenuIcon } from "../../Icons/menu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { Logout } from "@/service/user";
+import { logOut } from "@/redux/features/auth-slice";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const authData = useSelector((state: RootState) => state?.authReducer?.value);
   const pathname = usePathname();
   const [isLoader, setIsLoader] = useState(true);
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const onOpenSidebar = () => {
     setIsSidebarOpen(true);
@@ -24,7 +28,14 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setIsLoader(true);
-    // console.log("auth");
+
+    (async () => {
+      if (!authData?.user?.first_name && authData?.isAuth) {
+        await Logout();
+        dispatch(logOut());
+        router.refresh();
+      }
+    })();
     if (authData?.isAuth) {
       setIsLoader(false);
     } else {

@@ -1,4 +1,5 @@
 "use client";
+import { getJobServiceDetails } from "@/service/jobservice";
 import {
   Button,
   Chip,
@@ -12,6 +13,7 @@ import { Refresh2 } from "iconsax-react";
 import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Alerter } from "../components/General/Alerter";
 import DashboardInnerLayout from "../components/General/Dashboard/DashboardInnerLayout";
 import Details from "../components/General/JobService/Details";
 import BasicCard from "../components/General/Widget/BasicCard";
@@ -19,6 +21,7 @@ import LatestTable from "../components/General/Widget/DatatTable/LatestTable";
 import ServiceTable from "../components/General/Widget/DatatTable/ServiceTable";
 import VMTab from "../components/General/Widget/VMTab";
 import { ChevronDownIcon } from "../components/Icons/ChevronDownIcon";
+import { PLoader } from "../components/LoaderAlert";
 
 const UsersPage = () => {
   const router = useRouter();
@@ -31,9 +34,38 @@ const UsersPage = () => {
     jobs: [],
     services: [],
   });
+  const [isPopLoader, setIsPopLoader] = useState({
+    open: false,
+    text: "",
+  });
+
+  const [NotificateionAlert, setNotificateionAlert] = useState({
+    isEnabled: false,
+    message: "",
+    type: "",
+  });
+
+  const alertPreviewer = (
+    AlStatus: boolean,
+    AlStmt: string,
+    AlType: string
+  ) => {
+    setNotificateionAlert({
+      isEnabled: AlStatus,
+      message: AlStmt,
+      type: AlType,
+    });
+  };
 
   const getAnalytics = async () => {
-    setIsLoading(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsPopLoader({
+        open: false,
+        text: "",
+      });
+    }, 300);
   };
 
   useEffect(() => {
@@ -47,8 +79,38 @@ const UsersPage = () => {
   useEffect(() => {
     getAnalytics();
   }, []);
+
+  const clearAlert = () => {
+    setNotificateionAlert({
+      isEnabled: false,
+      message: "",
+      type: "",
+    });
+  };
+
+  const _handleDelete = async (userID: any) => {
+    clearAlert();
+    setIsPopLoader({
+      open: true,
+      text: "Deleting job, Please wait....",
+    });
+    await getJobServiceDetails("jobs", userID);
+    alertPreviewer(true, "Job Deleted Successfully", "success");
+    getAnalytics();
+    //console.log(userID);
+  };
   return (
     <>
+      {NotificateionAlert.isEnabled && (
+        <Alerter
+          Alerttype={NotificateionAlert.type}
+          AlertStmt={NotificateionAlert.message}
+          AlertTimeout={50000}
+        />
+      )}
+      {isPopLoader?.open && (
+        <PLoader showLiner={false} popText={isPopLoader?.text} />
+      )}
       {isShowModal && <Details metaInfo={metaInfo} />}
       <DashboardInnerLayout
         title="Jobs & Services"
@@ -140,6 +202,7 @@ const UsersPage = () => {
                       <div className="relative flex justify-center items-center">
                         <Dropdown aria-label="button" closeOnSelect>
                           <DropdownTrigger
+                            aria-label=""
                             style={{
                               position: "relative",
                               zIndex: 0,
@@ -154,8 +217,8 @@ const UsersPage = () => {
                               Manage
                             </Button>
                           </DropdownTrigger>
-                          <DropdownMenu>
-                            <DropdownItem
+                          <DropdownMenu aria-label="">
+                            {/* <DropdownItem
                               onClick={() => {
                                 router.push(
                                   `/jobs?view=${row.original.id}&type=job`,
@@ -166,8 +229,14 @@ const UsersPage = () => {
                               }}
                             >
                               View
+                            </DropdownItem> */}
+                            <DropdownItem
+                              closeOnSelect
+                              onClick={() => _handleDelete(row.original.id)}
+                              aria-label=""
+                            >
+                              Delete
                             </DropdownItem>
-                            <DropdownItem>Edit</DropdownItem>
                           </DropdownMenu>
                         </Dropdown>
                       </div>

@@ -16,3 +16,12 @@ export const getJobService = async () => {
     return err;
   }
 };
+
+export const getJobServiceDetails = async (page: string, userID: any) => {
+  try {
+    const response = await request.delete(`/${page}/delete/${userID}/`);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
