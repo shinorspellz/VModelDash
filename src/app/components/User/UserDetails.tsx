@@ -22,9 +22,11 @@ import UserActivities from "./UserActivities";
 import UserActMore from "./UserActMore";
 import EditUser from "./EditUser";
 import Image from "next/image";
+import UsersPosts from "./UsersPosts";
 
 const tabs = [
   { label: "About", value: "details" },
+  { label: "Posts", value: "posts" },
   { label: "Activities", value: "activities" },
   { label: "Social Media Analytics", value: "analytics" },
 ];
@@ -50,6 +52,7 @@ const UserDetails = ({ userID }: { userID: string }) => {
   };
 
   useEffect(() => {
+    //console.log(userID);
     fetchUserDetails(userID);
   }, [userID]);
 
@@ -207,6 +210,11 @@ const UserDetails = ({ userID }: { userID: string }) => {
           {currentTab === "analytics" && (
             <div>
               <UserActivities userData={userData} />
+            </div>
+          )}
+          {currentTab === "posts" && (
+            <div>
+              <UsersPosts userData={userData} />
             </div>
           )}
           {currentTab === "activities" && (
