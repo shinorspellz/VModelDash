@@ -1,4 +1,4 @@
-import { cache, request } from "@/utils";
+import { cache, request,upload } from "@/utils";
 import { LoginFunc } from "./type";
 import { CACHE_KEYS } from "@/utils/constants";
 import Cookies from "js-cookie";
@@ -54,6 +54,37 @@ export const getUserDetails = async (userID: string) => {
     return err;
   }
 };
+
+
+
+export const sendUserMessage = async (data: any) => {
+  try {
+    const response = await request.post({
+      url: '/system_message/',
+        data,
+    });
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+
+export const uploadImage = async (type: any,data:any) => {
+  try {
+    const response = await request.post({
+      url: `/upload/${type}/`,
+        data,
+      headers: {
+        "Content-Type": 'multipart/form-data',
+      },
+    });
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 
 export const getUserType = async () => {
   try {

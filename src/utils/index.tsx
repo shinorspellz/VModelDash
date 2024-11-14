@@ -171,3 +171,115 @@ export const objectToQueryString = (params: Record<string, any>) => {
 
   return queryParams.join("&");
 };
+
+export const upload: RequestInt = {
+  get: async (url, headers = {}) => {
+    try {
+      const Authorization = await cache.get(CACHE_KEYS.TOKEN);
+      //  console.log(Authorization);
+      headers = {
+        Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+        ...headers,
+      };
+      const requestParams = {
+        url: Env.API_BASE_URL + url,
+        method: "GET",
+        headers,
+      };
+
+      if (!Env.isProd) devLog("GET", requestParams);
+      const { data } = await Axios(requestParams);
+
+      return data;
+    } catch (err) {
+      const { message, statusCode } = handleError(err as Error);
+      return { message, statusCode };
+    }
+  },
+
+  post: async ({ url, data, headers = {} }) => {
+    try {
+      const Authorization = await cache.get(CACHE_KEYS.TOKEN);
+      const requestParams = {
+        url: 'https://uat-api.vmodel.app' + url,
+        method: "POST",
+        data,
+        headers: {
+          ...headers,
+          Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+        },
+      };
+
+      if (!Env.isProd) devLog("GET", requestParams);
+      const response = await Axios(requestParams);
+
+      devLog("POST response", response);
+      return response.data;
+    } catch (err) {
+      const { message, statusCode, errorCode } = handleError(err as Error);
+      return { message, statusCode, errorCode };
+    }
+  },
+
+  delete: async (url, headers = {}) => {
+    try {
+      const Authorization = await cache.get(CACHE_KEYS.TOKEN);
+      headers = {
+        ...headers,
+        Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+      };
+      const { data } = await Axios.delete(Env.API_BASE_URL + url, { headers });
+
+      return data;
+    } catch (err) {
+      const { message, statusCode } = handleError(err as Error);
+      return { message, statusCode };
+    }
+  },
+  patch: async ({ url, data, headers = {} }) => {
+    try {
+      const Authorization = await cache.get(CACHE_KEYS.TOKEN);
+      const requestParams = {
+        url: Env.API_BASE_URL + url,
+        method: "PATCH",
+        data,
+        headers: {
+          ...headers,
+          Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+        },
+      };
+
+      if (!Env.isProd) devLog("PATCH", requestParams);
+      const response = await Axios(requestParams);
+
+      devLog("POST response", response);
+      return response.data;
+    } catch (err) {
+      const { message, statusCode } = handleError(err as Error);
+      return { message, statusCode };
+    }
+  },
+  put: async ({ url, data, headers = {} }) => {
+    try {
+      const Authorization = await cache.get(CACHE_KEYS.TOKEN);
+      const requestParams = {
+        url: Env.API_BASE_URL + url,
+        method: "PUT",
+        data,
+        headers: {
+          ...headers,
+          Authorization: Authorization != null ? `Token  ${Authorization}` : "",
+        },
+      };
+
+      if (!Env.isProd) devLog("PUT", requestParams);
+      const response = await Axios(requestParams);
+
+      devLog("POST response", response);
+      return response.data;
+    } catch (err) {
+      const { message, statusCode } = handleError(err as Error);
+      return { message, statusCode };
+    }
+  },
+};

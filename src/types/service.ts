@@ -15,6 +15,9 @@ export interface IFormInputBasic {
   ustype?: string;
 }
 
+export interface MessageProp{
+  message: string
+} 
 export interface InputTypes {
   type?: "text" | "password";
   placeholder: string;

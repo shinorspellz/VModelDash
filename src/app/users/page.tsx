@@ -24,10 +24,16 @@ import { PLoader } from "../components/LoaderAlert";
 import EditUser from "../components/User/EditUser";
 import UserDetails from "../components/User/UserDetails";
 import { Alerter } from "../components/General/Alerter";
+import SendMessage from "../components/User/SendMessage";
 
 const UsersPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isOpenEdit, setIsOpenEdit] = useState({
+    open: false,
+    userID: "",
+    userData: {},
+  });
+  const [isOpenMessage, setIsMessage] = useState({
     open: false,
     userID: "",
     userData: {},
@@ -100,6 +106,29 @@ const UsersPage = () => {
     getAnalytics();
   }, []);
 
+  const _handleMesssage = async (userID: any) => {
+    clearAlert();
+    setIsPopLoader({
+      open: true,
+      text: "Deleting user, Please wait....",
+    });
+    await delUserDetails(userID);
+    alertPreviewer(true, "User Deleted Successfully", "success");
+    getAnalytics();
+    // if (response?.status) {
+    //   alertPreviewer(true, "User Deleted Successfully", "success");
+    // } else {
+    //   alertPreviewer(true, "An error occured. Please try again", "error");
+    // }
+
+    /// console.log(response);
+
+    setIsPopLoader({
+      open: false,
+      text: "",
+    });
+  };
+
   const _handleDelete = async (userID: any) => {
     clearAlert();
     setIsPopLoader({
@@ -148,6 +177,20 @@ const UsersPage = () => {
           }}
         />
       )}
+      {isOpenMessage?.open &&
+      <SendMessage
+        options={{
+          onClose: () =>
+            setIsMessage({
+              open: false,
+              userID: "",
+              userData: {},
+            }),
+          meta: { ...isOpenMessage?.userData },
+        }}
+      />}
+
+
       {isShowModal && <UserDetails userID={userID} />}
       <DashboardInnerLayout
         title="Users"
@@ -329,6 +372,19 @@ const UsersPage = () => {
                           }
                         >
                           Edit
+                        </DropdownItem>
+                        <DropdownItem
+                          closeOnSelect
+                          aria-label="button"
+                          onClick={() =>
+                            setIsMessage({
+                              open: true,
+                              userID: row.original.id,
+                              userData: row.original,
+                            })
+                          }
+                        >
+                          Send Message
                         </DropdownItem>
                         <DropdownItem
                           closeOnSelect
